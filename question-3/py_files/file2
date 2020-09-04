@@ -1,0 +1,3 @@
+#!/usr/bin/python3
+
+print("output from file b")

@@ -1,0 +1,48 @@
+#!/usr/bin/python3
+
+import click
+import subprocess
+
+# Sample run of the program
+# py_processor -f /home/py_files -n file1,file3,file4,file1 -o py_processor_output
+# file_list will store the output of ls <folder passed via -f>
+
+# Flags for the program
+@click.command()
+@click.option("--folder","-f",show_default=True,required=True, help="The name of the folder to work upon")
+@click.option("--sequence","-s",show_default=True,default="asc", help="Ascending / Descending – The list of files order to work upon. Default Behavior – Ascending")
+@click.option("--name","-n",show_default=True,default="all", help="The exact file name to run. Default Behavior – All the files")
+@click.option("--outfile","-o",show_default=True,default="console", help="Log the output to the mentioned file name. Default behavior – Console")
+
+
+# -n will have the order of execution for the program
+# if -n is not given then -s decides the order of execution
+def process(folder,sequence,name,outfile):
+    if name!="all":
+      sorted_file_list = name.split(",")
+    else:
+      file_list = subprocess.run("ls",capture_output=True,text=True,cwd=folder)
+      if sequence!="asc":
+        sorted_file_list = sorted(file_list.stdout.split(), reverse=True)
+      else:
+        sorted_file_list = sorted(file_list.stdout.split())
+
+# List for storing output.
+    file_output=[]
+
+# Adding individual file output to the list
+# Each individual file output is stored as dictionary
+# Sample- [{"file1": "output of file1"}, {"file2": "output of file2"}]
+    for i in sorted_file_list:
+      dict_output={}
+      dict_output[i]=subprocess.run("/usr/bin/python3 "+i,shell=True,capture_output=True,text=True,cwd=folder).stdout
+      file_output.append(dict_output)
+
+# Based on the flag -o, deciding what to print to console or create a file with output.
+    for i in file_output:
+        for k, v in i.items():
+            if outfile!="console":
+                print ("{:<20} {:<20} {:<20}".format(folder, k, v), file=open(outfile,'a'))
+            else:
+                print ("{:<20} {:<20} {:<20}".format(folder, k, v))
+process()
