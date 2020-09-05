@@ -1,4 +1,4 @@
-#Question-2
+# Question-2
 
 We have a high availability application running with the following Architecture.  
 

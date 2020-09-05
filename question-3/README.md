@@ -1,4 +1,4 @@
-#Question-3
+# Question-3
 
 2. Write a Python program to build an automated Data Pipeline. The program should be a single file python code and should be able to do the following.  
     a. Navigate to a particular folder and execute other Python scripts which contains some kind of Data Ingestion / Transformation  
@@ -16,6 +16,6 @@
         iii. The output of the files executed. Just the console output returned should be okay  
 
 
-####Sample Run-
+#### Sample Run-
 ![Output](py_processor_output.png)
 
